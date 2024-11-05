@@ -1,4 +1,4 @@
-## Usage example
+## Example usage
 ```javascript
 import { maxLipoTrPlus } from "./max-lipo-tr-plus.js"
 
