@@ -11,21 +11,21 @@
     <p id="output"></p>
     
     <script type="module">
-        import { maxLipoTrPlus } from "./max-lipo-tr-plus.js"
+        import { maxLipoPlusTr } from "./max-lipo-plus-tr.js"
 
         // Rosenbrock function for 3D space
         // Is minimized at x0 = 1, x1 = 1, x2 = 1
         function rosenbrock3D(x0, x1, x2) {
-            return 100 * ((x1 - x0**2)**2 + (x2 - x1**2)**2) + (1 - x0)**2 + (1 - x1)**2;
+            return 100 * ((x1 - x0**2)**2 + (x2 - x1**2)**2) + (1 - x0)**2 + (1 - x1)**2
         }
 
         const lower_bounds = [-100, -100, -100];
         const upper_bounds = [100, 100, 100];
-        const max_calls = 250;
+        const max_calls = 300;
 
-        let result = await maxLipoTrPlus(rosenbrock3D, lower_bounds, upper_bounds, max_calls);
+        let result = await maxLipoPlusTr(rosenbrock3D, lower_bounds, upper_bounds, max_calls);
 
-        // console.log(result);
+        console.log(result);
         // This gives :
         // {
         //   "x": [0.995011751207896, 0.9896402741130335, 0.9790070765474216], 
@@ -35,9 +35,9 @@
         
         document.getElementById("run").addEventListener("click", function() {
             // Usage example:
-            maxLipoTrPlus(rosenbrock3D, lower_bounds, upper_bounds, max_calls).then((result) => {
+            maxLipoPlusTr(rosenbrock3D, lower_bounds, upper_bounds, max_calls).then((result) => {
                 console.log("Optimization result:", result);
-                document.getElementById("output").innerText = `Minimized value at [${result.x.join(', ')}], \nMinimum y value: ${result.y.toFixed(20)}`;
+                document.getElementById("output").innerText += `Minimized value at [${result.x.join(', ')}], \nMinimum y value: ${result.y.toFixed(20)}\n\n`;
 
             }).catch((error) => {
                 console.error("Error during optimization:", error);
