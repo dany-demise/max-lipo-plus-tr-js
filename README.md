@@ -3,7 +3,7 @@
 import { maxLipoPlusTr } from "./max-lipo-plus-tr.js"
 
 // Rosenbrock function for 3D space
-// Is minimized at x = 1, y = 1, z = 1
+// Is minimized at x0 = 1, x1 = 1, x2 = 1
 function rosenbrock3D(x0, x1, x2) {
     return 100 * ((x1 - x0**2)**2 + (x2 - x1**2)**2) + (1 - x0)**2 + (1 - x1)**2;
 }
