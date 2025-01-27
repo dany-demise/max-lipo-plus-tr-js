@@ -36,9 +36,7 @@
         document.getElementById("run").addEventListener("click", function() {
             // Usage example:
             maxLipoPlusTr(rosenbrock3D, lower_bounds, upper_bounds, max_calls).then((result) => {
-                console.log("Optimization result:", result);
                 document.getElementById("output").innerText += `Minimized value at [${result.x.join(', ')}], \nMinimum y value: ${result.y.toFixed(20)}\n\n`;
-
             }).catch((error) => {
                 console.error("Error during optimization:", error);
             });
