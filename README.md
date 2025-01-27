@@ -1,18 +1,18 @@
 ## Example usage
 ```javascript
-import { maxLipoTrPlus } from "./max-lipo-tr-plus.js"
+import { maxLipoPlusTr } from "./max-lipo-plus-tr.js"
 
 // Rosenbrock function for 3D space
 // Is minimized at x = 1, y = 1, z = 1
-function rosenbrock3D(x, y, z) {
-    return 100 * ((y - x**2)**2 + (z - y**2)**2) + (1 - x)**2 + (1 - y)**2;
+function rosenbrock3D(x0, x1, x2) {
+    return 100 * ((x1 - x0**2)**2 + (x2 - x1**2)**2) + (1 - x0)**2 + (1 - x1)**2;
 }
 
 const lower_bounds = [-100, -100, -100];
 const upper_bounds = [100, 100, 100];
-const max_calls = 250;
+const max_calls = 300;
 
-let result = await maxLipoTrPlus(rosenbrock3D, lower_bounds, upper_bounds, max_calls);
+let result = await maxLipoPlusTrs(rosenbrock3D, lower_bounds, upper_bounds, max_calls);
 
 console.log(result);
 // This gives :
