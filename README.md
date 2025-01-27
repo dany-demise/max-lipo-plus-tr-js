@@ -12,7 +12,7 @@ const lower_bounds = [-100, -100, -100];
 const upper_bounds = [100, 100, 100];
 const max_calls = 300;
 
-let result = await maxLipoPlusTrs(rosenbrock3D, lower_bounds, upper_bounds, max_calls);
+let result = await maxLipoPlusTr(rosenbrock3D, lower_bounds, upper_bounds, max_calls);
 
 console.log(result);
 // This gives :
