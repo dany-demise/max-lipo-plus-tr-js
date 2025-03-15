@@ -1,47 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Min Global with WebAssembly</title>
-</head>
-<body>
-    <h1>Find Minimum Global with Dlib and WebAssembly</h1>
-    <button id="run">Run Find Min Global</button>
-    <p id="output"></p>
-    
+    <title>Optimization Process Line Chart</title>
+    <!-- Include Chart.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module">
-        import { maxLipoPlusTr } from "./max-lipo-plus-tr.js"
+        import { maxLipoPlusTr } from "./max-lipo-plus-tr.js";
 
-        // Rosenbrock function for 3D space
-        // Is minimized at x0 = 1, x1 = 1, x2 = 1
+        // Rosenbrock function for 3D space (minimized at [1,1,1])
         function rosenbrock3D(x0, x1, x2) {
-            return 100 * ((x1 - x0**2)**2 + (x2 - x1**2)**2) + (1 - x0)**2 + (1 - x1)**2
+            return 100 * ((x1 - x0 ** 2) ** 2 + (x2 - x1 ** 2) ** 2) + (1 - x0) ** 2 + (1 - x1) ** 2;
         }
 
-        const lower_bounds = [-100, -100, -100];
-        const upper_bounds = [100, 100, 100];
-        const max_calls = 300;
+        const lowerBounds = [-100, -100, -100];
+        const upperBounds = [100, 100, 100];
 
-        let result = await maxLipoPlusTr(rosenbrock3D, lower_bounds, upper_bounds, max_calls);
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("maxCallsForm");
+            const chartCanvas = document.getElementById("chart");
+            const ctx = chartCanvas.getContext("2d");
 
-        console.log(result);
-        // This gives :
-        // {
-        //   "x": [0.995011751207896, 0.9896402741130335, 0.9790070765474216], 
-        //   "y": 0.0001633625283124742
-        // }
-
-        
-        document.getElementById("run").addEventListener("click", function() {
-            // Usage example:
-            maxLipoPlusTr(rosenbrock3D, lower_bounds, upper_bounds, max_calls).then((result) => {
-                document.getElementById("output").innerText += `Minimized value at [${result.x.join(', ')}], \nMinimum y value: ${result.y.toFixed(20)}\n\n`;
-            }).catch((error) => {
-                console.error("Error during optimization:", error);
+            // Create a single line chart with three datasets (one for each result.x dimension)
+            const lineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],  // x-axis will be the iteration number
+                    datasets: [
+                        {
+                            label: 'x0',
+                            data: [],
+                            borderColor: 'blue',
+                            fill: false,
+                        },
+                        {
+                            label: 'x1',
+                            data: [],
+                            borderColor: 'red',
+                            fill: false,
+                        },
+                        {
+                            label: 'x2',
+                            data: [],
+                            borderColor: 'green',
+                            fill: false,
+                        }
+                    ]
+                },
+                options: {
+                    animation: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Iteration'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Value'
+                            }
+                        }
+                    }
+                }
             });
 
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                // Clear previous chart data
+                lineChart.data.labels = [];
+                lineChart.data.datasets.forEach(dataset => dataset.data = []);
+                lineChart.update();
+
+                // Get user-defined MAX_CALLS value
+                const maxCalls = parseInt(document.getElementById("maxCallsInput").value);
+                if (isNaN(maxCalls) || maxCalls <= 30) {
+                    alert("Please enter a valid number greater than 30.");
+                    return;
+                }
+
+                // Iterate from 0 to MAX_CALLS
+                for (let i = 30; i <= maxCalls; i++) {
+                    // Call the optimization function with the current iteration count
+                    const result = await maxLipoPlusTr(rosenbrock3D, lowerBounds, upperBounds, i);
+
+                    // Print the result to the console
+                    // console.log(`Iteration ${i}:`, result);
+
+                    // Append the iteration number as a label
+                    lineChart.data.labels.push(i);
+
+                    // Append the values from result.x to the respective datasets
+                    // (Assumes result.x is an array of three values)
+                    lineChart.data.datasets[0].data.push(result.x[0]);
+                    lineChart.data.datasets[1].data.push(result.x[1]);
+                    lineChart.data.datasets[2].data.push(result.x[2]);
+
+                    // Update the chart after adding the new data point
+                    await lineChart.update();
+                    await new Promise(resolve => setTimeout(resolve, 1)); // 1000/30
+                }
+            });
         });
     </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2em;
+        }
+
+        form {
+            margin-bottom: 1em;
+        }
+
+        canvas {
+            max-width: 800px;
+            max-height: 450px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Optimization Process Line Chart</h1>
+    <form id="maxCallsForm">
+        <label for="maxCallsInput">Max function calls:</label>
+        <input type="number" id="maxCallsInput" name="maxCalls" min="30" value="300" required>
+        <button type="submit">Start Optimization</button>
+    </form>
+    <canvas id="chart"></canvas>
 </body>
+
 </html>
