@@ -69,6 +69,7 @@
 
             form.addEventListener("submit", async (event) => {
                 event.preventDefault();
+                document.getElementById('submit-button').disabled = true;
 
                 // Clear previous chart data
                 lineChart.data.labels = [];
@@ -103,6 +104,7 @@
                     await lineChart.update();
                     await new Promise(resolve => setTimeout(resolve, 1)); // 1000/30
                 }
+                document.getElementById('submit-button').disabled = false;
             });
         });
     </script>
@@ -128,7 +130,7 @@
     <form id="maxCallsForm">
         <label for="maxCallsInput">Max function calls:</label>
         <input type="number" id="maxCallsInput" name="maxCalls" min="30" value="300" required>
-        <button type="submit">Start Optimization</button>
+        <button type="submit" id="submit-button">Start Optimization</button>
     </form>
     <canvas id="chart"></canvas>
 </body>
