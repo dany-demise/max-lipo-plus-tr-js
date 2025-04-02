@@ -1,5 +1,7 @@
-## See this article for details
-[https://dany-demise.github.io/blog/optimizing-a-javascript-function-with-dlibs-maxlipotr-global-optimization-algorithm-using-emscripten-and-wasm/](https://dany-demise.github.io/blog/optimizing-a-javascript-function-with-dlibs-maxlipotr-global-optimization-algorithm-using-emscripten-and-wasm/)
+## See these article for details
+Original DLib article on MaxLIPO+TR : [https://blog.dlib.net/2017/12/a-global-optimization-algorithm-worth.html](https://blog.dlib.net/2017/12/a-global-optimization-algorithm-worth.html)
+
+Article on porting to Javascript : [https://dany-demise.github.io/blog/optimizing-a-javascript-function-with-dlibs-maxlipotr-global-optimization-algorithm-using-emscripten-and-wasm/](https://dany-demise.github.io/blog/optimizing-a-javascript-function-with-dlibs-maxlipotr-global-optimization-algorithm-using-emscripten-and-wasm/)
 
 ## Example usage
 ```javascript
