@@ -1,3 +1,6 @@
+## See this article for details
+[https://dany-demise.github.io/blog/optimizing-a-javascript-function-with-dlibs-maxlipotr-global-optimization-algorithm-using-emscripten-and-wasm/](https://dany-demise.github.io/blog/optimizing-a-javascript-function-with-dlibs-maxlipotr-global-optimization-algorithm-using-emscripten-and-wasm/)
+
 ## Example usage
 ```javascript
 import { maxLipoPlusTr } from "./max-lipo-plus-tr.js"
